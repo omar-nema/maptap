@@ -259,17 +259,16 @@ html, body {
   font-weight: 700;
   letter-spacing: 0.02em;
   color: #faf6ee;
-  background: #c9364d;
+  background: #2f5539;
   border: none;
-  border-radius: 999px;
-  padding: 11px 30px;
+  border-radius: 6px;
+  padding: 13px 30px;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
-  box-shadow: 0 3px 0 #8f2537;
+  transition: background 0.15s ease, opacity 0.15s ease;
 }
 
-.btn:hover:not(:disabled) { transform: translateY(-1px); }
-.btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 1px 0 #8f2537; }
+.btn:hover:not(:disabled) { background: #396a46; }
+.btn:active:not(:disabled) { background: #24422c; }
 .btn:focus-visible { outline: 3px solid #9a7b4f; outline-offset: 2px; }
 
 .btn:disabled {

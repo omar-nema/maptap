@@ -23,9 +23,9 @@ const MAP_VERDICTS = [
 
 const DATE_VERDICTS = [
   { under: 1, headline: "Right on the day. How?!", eyebrow: "Perfect" },
-  { under: 8, headline: "Off by a whisper.", eyebrow: "So close" },
-  { under: 31, headline: "Right season, wrong week.", eyebrow: "Almost" },
-  { under: 91, headline: "Getting warmer...", eyebrow: "Not quite" },
+  { under: 31, headline: "Basically nailed it.", eyebrow: "So close" },
+  { under: 91, headline: "Right season, close enough.", eyebrow: "Almost" },
+  { under: 183, headline: "In the right half of the year.", eyebrow: "Not quite" },
   { under: Infinity, headline: "We clearly need a rewatch.", eyebrow: "Way off" },
 ];
 
@@ -93,14 +93,11 @@ function geoScore(miles) {
   return Math.max(0, Math.round(p));
 }
 
-// Same shape for dates: exact = 100, 7 days = 80, 30 days = 50, 0 by 90 days.
+// Dates by how many months off: within 1 month = 100, 3 months = 80,
+// 6 months = 50 — a clean -10 points per month past the first, to 0.
 function dateScore(daysOff) {
-  let p;
-  if (daysOff <= 0) p = 100;
-  else if (daysOff <= 7) p = 100 - (daysOff / 7) * 20;
-  else if (daysOff <= 30) p = 80 - ((daysOff - 7) / 23) * 30;
-  else if (daysOff <= 90) p = 50 - ((daysOff - 30) / 60) * 50;
-  else p = 0;
+  const months = daysOff / 30;
+  const p = months <= 1 ? 100 : 100 - (months - 1) * 10;
   return Math.max(0, Math.round(p));
 }
 
