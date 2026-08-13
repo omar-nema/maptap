@@ -1,0 +1,204 @@
+/* ---- palette ----
+   ink       #2b2118  warm near-black
+   paper     #faf6ee  cream card stock
+   rose      #c9364d  the heart / accent
+   rose-soft #f3d9dd  reveal tint
+   brass     #9a7b4f  eyebrow / utility
+*/
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  color: #2b2118;
+  overflow: hidden;
+}
+
+#map {
+  position: fixed;
+  inset: 0;
+  background: #e8e4da;
+}
+
+/* gentle warmth over the tiles — keepsake, not washed out */
+.leaflet-tile-pane {
+  filter: sepia(0.08) saturate(1.05);
+}
+
+/* ---- floating cards ---- */
+
+.card {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: min(420px, calc(100vw - 32px));
+  background: #faf6ee;
+  border: 1px solid rgba(43, 33, 24, 0.18);
+  border-radius: 4px;
+  box-shadow: 0 2px 0 rgba(43, 33, 24, 0.18), 0 12px 32px rgba(43, 33, 24, 0.18);
+  padding: 20px 24px 22px;
+  text-align: center;
+}
+
+.prompt-card { top: 20px; }
+
+.result-card {
+  bottom: 28px;
+  animation: rise 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateX(-50%) translateY(24px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.hidden { display: none; }
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9a7b4f;
+  margin-bottom: 6px;
+}
+
+.prompt, .result-headline {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.hint {
+  font-size: 14px;
+  color: rgba(43, 33, 24, 0.65);
+  margin-bottom: 14px;
+}
+
+.result-distance {
+  font-size: 15px;
+  font-weight: 700;
+  color: #c9364d;
+  margin-bottom: 6px;
+}
+
+.memory {
+  border-top: 1px dashed rgba(43, 33, 24, 0.3);
+  margin: 14px 0 16px;
+  padding-top: 14px;
+}
+
+.memory-name {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.memory-text {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(43, 33, 24, 0.75);
+}
+
+.date-input {
+  display: block;
+  width: min(240px, 100%);
+  margin: 0 auto 14px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  color: #2b2118;
+  background: #fff;
+  border: 1px solid rgba(43, 33, 24, 0.3);
+  border-radius: 8px;
+  padding: 10px 12px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.date-input:focus-visible {
+  outline: 3px solid #9a7b4f;
+  outline-offset: 1px;
+}
+
+.date-input.hidden { display: none; }
+
+.btn {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #faf6ee;
+  background: #c9364d;
+  border: none;
+  border-radius: 999px;
+  padding: 11px 30px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  box-shadow: 0 3px 0 #8f2537;
+}
+
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 1px 0 #8f2537; }
+.btn:focus-visible { outline: 3px solid #9a7b4f; outline-offset: 2px; }
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ---- markers ---- */
+
+.heart-pin {
+  font-size: 30px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 3px rgba(43, 33, 24, 0.4));
+  transform-origin: 50% 90%;
+  animation: drop-in 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
+}
+
+.star-pin {
+  font-size: 30px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 3px rgba(43, 33, 24, 0.4));
+  animation: drop-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
+}
+
+@keyframes drop-in {
+  from { opacity: 0; transform: translateY(-14px) scale(0.6); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.distance-label {
+  background: #2b2118;
+  color: #faf6ee;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: none;
+  box-shadow: 0 2px 6px rgba(43, 33, 24, 0.35);
+  white-space: nowrap;
+}
+.distance-label::before { display: none; }
+
+.leaflet-container { cursor: crosshair; }
+.leaflet-control-attribution { font-size: 9px; opacity: 0.7; }
+
+@media (prefers-reduced-motion: reduce) {
+  .result-card, .heart-pin, .star-pin { animation: none; }
+  .btn { transition: none; }
+}
+
+@media (max-width: 480px) {
+  .prompt, .result-headline { font-size: 24px; }
+  .card { padding: 16px 18px 18px; }
+}
