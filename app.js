@@ -290,7 +290,7 @@ function showResult(detail, name, memory, points) {
   document.getElementById("memory-text").textContent = memory;
   memoryBlock.classList.toggle("hidden", !name && !memory);
 
-  nextBtn.textContent = round + 1 < SPOTS.length ? "Next memory" : "See your award";
+  nextBtn.textContent = round + 1 < SPOTS.length ? "Next memory" : "One more thing…";
   promptCard.classList.add("hidden");
   resultCard.classList.remove("hidden");
 
@@ -305,6 +305,8 @@ nextBtn.addEventListener("click", () => {
   if (round + 1 < SPOTS.length) {
     round++;
     startRound(round);
+  } else if (window.startVukVuk) {
+    startVukVuk(showAwards);
   } else {
     showAwards();
   }
@@ -329,7 +331,6 @@ function showAwards() {
 
   const top = pct >= 0.8;
   if (!top) stopConfetti(); // clear any leftovers from a previous game
-  document.getElementById("award-badge").classList.toggle("hidden", !top);
   document.getElementById("smiski-happy").classList.toggle("hidden", !top);
   document.getElementById("smiski-sad").classList.toggle("hidden", pct >= 0.6);
 
