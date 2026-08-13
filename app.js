@@ -9,36 +9,65 @@
 // re-encode with  btoa(JSON.stringify(spots))  — then paste back below.
 // ---------------------------------------------------------------
 const SPOTS_ENCODED =
-  "W3sidHlwZSI6Im1hcCIsInByb21wdCI6IldoZXJlIGRpZCB3ZSBoYXZlIG91ciBmaXJzdCBkYXRlPyIsImFuc3dlciI6WzQwLjcxNzAxNjgsLTczLjk0OTk4MTNdLCJuYW1lIjoiTmlnaHQgb2YgSm95IiwibWVtb3J5IjoiWW91IHdlcmUgd2VhcmluZyBhIGRyZXNzLCBJIHdhcyB3ZWFyaW5nIGEgc2hvcnQgc2xlZXZlIGJ1dHRvbiB1cC4gV2Ugc3RhcnRlZCBieSB0YWxraW5nIGFib3V0IG1pZHNvbW1hciwgeW91IHdlcmUgc3VwZXIgY3V0ZSBhbmQgYSBsaWwgc2h5LiJ9LHsidHlwZSI6Im1hcCIsInByb21wdCI6IldoZXJlIHdlcmUgd2Ugb24gb3VyIHRoaXJkIGRhdGU/IiwiYW5zd2VyIjpbNDAuNzA0OTE2NywtNzMuOTI3OTA1Nl0sIm5hbWUiOiJCdW5uYSBDYWZlIiwibWVtb3J5IjoiIn0seyJ0eXBlIjoibWFwIiwicHJvbXB0IjoiV2hlcmUgZGlkIHdlIHdhdGNoIG91ciBmaXJzdCBtb3ZpZSB0b2dldGhlcj8iLCJhbnN3ZXIiOls0MC43MTU5NzIyLC03My45NjI1NzVdLCJuYW1lIjoiTml0ZWhhd2sgQ2luZW1hIiwibWVtb3J5IjoiV2Ugd2F0Y2hlZCBUZWVuYWdlIE11dGFudCBOaW5qYSBUdXJ0bGVzLiJ9LHsidHlwZSI6ImRhdGUiLCJwcm9tcHQiOiJXaGVuIGRpZCB3ZSBzZWUgUmFteSB0b2dldGhlcj8iLCJhbnN3ZXJEYXRlIjoiMjAyMy0xMi0wOCIsIm5hbWUiOiIiLCJtZW1vcnkiOiIifSx7InR5cGUiOiJkYXRlIiwicHJvbXB0IjoiV2hlbiB3YXMgb3VyIGZpcnN0IHN6ZWNodWFuIGZvb2QgdG9nZXRoZXI/IiwiYW5zd2VyRGF0ZSI6IjIwMjQtMDItMjkiLCJuYW1lIjoiQW50aWRvdGUiLCJtZW1vcnkiOiIifV0=";
+  "W3sidHlwZSI6Im1hcCIsInByb21wdCI6IldoZXJlIGRpZCB3ZSBoYXZlIG91ciBmaXJzdCBkYXRlPyIsImFuc3dlciI6WzQwLjcxNzAxNjgsLTczLjk0OTk4MTNdLCJuYW1lIjoiTmlnaHQgb2YgSm95IiwibWVtb3J5IjoiWW91IHdlcmUgd2VhcmluZyBhIGRyZXNzLCBJIHdhcyB3ZWFyaW5nIGEgc2hvcnQgc2xlZXZlIGJ1dHRvbiB1cC4gV2Ugc3RhcnRlZCBieSB0YWxraW5nIGFib3V0IG1pZHNvbW1hciwgeW91IHdlcmUgc3VwZXIgY3V0ZSBhbmQgYSBsaWwgc2h5LiJ9LHsidHlwZSI6Im1hcCIsInByb21wdCI6IldoZXJlIHdlcmUgd2Ugb24gb3VyIHRoaXJkIGRhdGU/IiwiYW5zd2VyIjpbNDAuNzA0OTE2NywtNzMuOTI3OTA1Nl0sIm5hbWUiOiJCdW5uYSBDYWZlIiwibWVtb3J5IjoiIn0seyJ0eXBlIjoibWFwIiwicHJvbXB0IjoiV2hlcmUgZGlkIHdlIHdhdGNoIG91ciBmaXJzdCBtb3ZpZSB0b2dldGhlcj8iLCJhbnN3ZXIiOls0MC43MTU5NzIyLC03My45NjI1NzVdLCJuYW1lIjoiTml0ZWhhd2sgQ2luZW1hIiwibWVtb3J5IjoiV2Ugd2F0Y2hlZCBUZWVuYWdlIE11dGFudCBOaW5qYSBUdXJ0bGVzLiJ9LHsidHlwZSI6Im1hcCIsInByb21wdCI6IldoZXJlIGRpZCB3ZSBnZXQgb3VyIGZpcnN0IHRhdHRvb3M/IiwiYW5zd2VyIjpbNDAuNzAwNzc0MSwtNzMuOTAyMDA5OV0sIm5hbWUiOiJOaWNvJ3MgcGxhY2UiLCJtZW1vcnkiOiI5NDAgT25kZXJkb25rIEF2ZSwgUmlkZ2V3b29kLiJ9LHsidHlwZSI6Im1hcCIsInByb21wdCI6IldoZXJlIGRpZCB3ZSBkaXNjdXNzIGdldHRpbmcgcGllcmNpbmdzPyIsImFuc3dlciI6WzQwLjcwNDE0MjQsLTczLjkzMzE1OTZdLCJuYW1lIjoiRXl2YWwiLCJtZW1vcnkiOiIifSx7InR5cGUiOiJtYXAiLCJzY29wZSI6IndvcmxkIiwicHJvbXB0IjoiV2hlcmUgaXMgTWFyeWFtJ3MgIzEgU3BvdGlmeSBhcnRpc3Qgb2YgMjAyMyBmcm9tPyIsImFuc3dlciI6WzE4LjQ2NTUsLTY2LjEwNTddLCJuYW1lIjoiUHVlcnRvIFJpY28iLCJtZW1vcnkiOiJCYWQgQnVubnkuIn0seyJ0eXBlIjoibWFwIiwic2NvcGUiOiJ1cyIsInByb21wdCI6IldoZXJlIGlzIE9tYXIncyAjMSBTcG90aWZ5IGFydGlzdCBvZiAyMDIzIGZyb20/IiwiYW5zd2VyIjpbMzQuMDUyMiwtMTE4LjI0MzddLCJuYW1lIjoiTG9zIEFuZ2VsZXMiLCJtZW1vcnkiOiIifSx7InR5cGUiOiJkYXRlIiwicHJvbXB0IjoiV2hlbiBkaWQgd2Ugc2VlIFJhbXkgdG9nZXRoZXI/Iiwic3VidGV4dCI6IkFuZCB5b3UgdGhvdWdodCB0aGlzIHdhcyBqdXN0IGEgbWFwIPCfmIgiLCJhbnN3ZXJEYXRlIjoiMjAyMy0xMi0wOCIsIm5hbWUiOiIiLCJtZW1vcnkiOiIifSx7InR5cGUiOiJkYXRlIiwicHJvbXB0IjoiV2hlbiB3YXMgb3VyIGZpcnN0IHN6ZWNodWFuIGZvb2QgdG9nZXRoZXI/IiwiYW5zd2VyRGF0ZSI6IjIwMjQtMDItMjkiLCJuYW1lIjoiQW50aWRvdGUiLCJtZW1vcnkiOiIifV0=";
 
 const SPOTS = JSON.parse(decodeURIComponent(escape(atob(SPOTS_ENCODED))));
 
-// Verdicts by how close the guess landed.
-const MAP_VERDICTS = [
-  { under: 0.1, headline: "You know us by heart.", eyebrow: "Perfect" },
-  { under: 0.5, headline: "So close I can feel it.", eyebrow: "Almost" },
-  { under: 2, headline: "Warm... but wander closer.", eyebrow: "Not quite" },
-  { under: Infinity, headline: "Wrong borough of my heart!", eyebrow: "Way off" },
-];
+// Per-scope map views and scoring curves ([miles, points] anchors,
+// linear in between). Rounds default to "nyc"; wider scopes grade
+// proportionally more generously.
+const SCOPES = {
+  nyc: {
+    center: [40.7328, -73.986], zoom: 13, minZoom: 11,
+    bounds: [[40.49, -74.28], [40.93, -73.68]],
+    curve: [[0.5, 100], [1, 80], [2, 50], [3.5, 0]],
+  },
+  us: {
+    center: [39.5, -97.5], zoom: 4, minZoom: 3,
+    bounds: [[10, -150], [60, -50]],
+    curve: [[50, 100], [200, 80], [600, 50], [1500, 0]],
+  },
+  world: {
+    center: [25, -40], zoom: 2, minZoom: 1,
+    bounds: [[-85, -180], [85, 180]],
+    curve: [[250, 100], [1000, 80], [3000, 50], [7000, 0]],
+  },
+};
 
-const DATE_VERDICTS = [
-  { under: 1, headline: "Right on the day. How?!", eyebrow: "Perfect" },
-  { under: 31, headline: "Basically nailed it.", eyebrow: "So close" },
-  { under: 91, headline: "Right season, close enough.", eyebrow: "Almost" },
-  { under: 183, headline: "In the right half of the year.", eyebrow: "Not quite" },
-  { under: Infinity, headline: "We clearly need a rewatch.", eyebrow: "Way off" },
-];
+// Verdict headline is drawn at random from the tier the points land in.
+const PHRASES = {
+  high: [
+    "Good lord on ice skates that's good",
+    "Ay mami",
+    "Claro si si",
+    "Oh no you didn't",
+    "You know ball",
+    "Okay Jalen Brunson",
+  ],
+  mid: ["Warm... but wander closer."],
+  low: [
+    "Sick to my stomach fam",
+    "Good lord on ice skates (derogatory)",
+    "Cover your eyes children",
+    "That's the best you can do",
+    "It's okay you haven't had your matcha yet",
+    "Mitchell Robinson misses another at the line",
+  ],
+};
 
-// ---- map setup: NYC only, no place names ----
-const NYC_CENTER = [40.7328, -73.986];
-const NYC_BOUNDS = L.latLngBounds([40.49, -74.28], [40.93, -73.68]);
+function pickHeadline(points) {
+  const tier = points >= 80 ? "high" : points >= 50 ? "mid" : "low";
+  const list = PHRASES[tier];
+  return list[Math.floor(Math.random() * list.length)];
+}
 
+// ---- map setup (scope applied per round) ----
 const map = L.map("map", {
-  center: NYC_CENTER,
-  zoom: 13,
-  minZoom: 11,
+  center: SCOPES.nyc.center,
+  zoom: SCOPES.nyc.zoom,
+  minZoom: SCOPES.nyc.minZoom,
   maxZoom: 17,
-  maxBounds: NYC_BOUNDS,
+  maxBounds: L.latLngBounds(SCOPES.nyc.bounds),
   maxBoundsViscosity: 1.0,
   zoomControl: false,
   attributionControl: true,
@@ -81,16 +110,15 @@ let locked = false;
 let totalScore = 0;
 let scoreRaf = null;
 
-// Points per round, out of 100. Anchored to the distances you gave:
-// 0.5 mi = 100, 1 mi = 80, 2 mi = 50, fading to 0 by 3.5 mi.
-function geoScore(miles) {
-  let p;
-  if (miles <= 0.5) p = 100;
-  else if (miles <= 1) p = 100 - ((miles - 0.5) / 0.5) * 20;
-  else if (miles <= 2) p = 80 - (miles - 1) * 30;
-  else if (miles <= 3.5) p = 50 - ((miles - 2) / 1.5) * 50;
-  else p = 0;
-  return Math.max(0, Math.round(p));
+// Points out of 100 from a scope's [miles, points] anchor curve.
+function geoScore(miles, curve) {
+  if (miles <= curve[0][0]) return 100;
+  for (let i = 1; i < curve.length; i++) {
+    const [d0, p0] = curve[i - 1];
+    const [d1, p1] = curve[i];
+    if (miles <= d1) return Math.round(p0 + ((miles - d0) / (d1 - d0)) * (p1 - p0));
+  }
+  return 0;
 }
 
 // Dates by how many months off: within 1 month = 100, 3 months = 80,
@@ -144,6 +172,9 @@ function startRound(i) {
   if (i === 0) resetScore(); // fresh game (also the initial load)
   document.getElementById("round-label").textContent = `Round ${i + 1} / ${SPOTS.length}`;
   document.getElementById("prompt-text").textContent = spot.prompt;
+  const subtextEl = document.getElementById("prompt-subtext");
+  subtextEl.textContent = spot.subtext || "";
+  subtextEl.classList.toggle("hidden", !spot.subtext);
   confirmBtn.disabled = true;
   locked = false;
 
@@ -162,7 +193,11 @@ function startRound(i) {
 
   resultCard.classList.add("hidden");
   promptCard.classList.remove("hidden");
-  map.flyTo(NYC_CENTER, 13, { duration: 0.8 });
+
+  const scope = SCOPES[spot.scope || "nyc"];
+  map.setMinZoom(scope.minZoom);
+  map.setMaxBounds(L.latLngBounds(scope.bounds));
+  map.flyTo(scope.center, scope.zoom, { duration: 0.8 });
 }
 
 map.on("click", (e) => {
@@ -214,8 +249,8 @@ function revealMap(spot) {
   label.addTo(map);
   revealLayers = [answerMarker, line, label];
 
-  const verdict = MAP_VERDICTS.find((v) => miles < v.under);
-  showResult(verdict, `Your guess was ${formatDistance(miles)} away`, spot.name, spot.memory, geoScore(miles));
+  const scope = SCOPES[spot.scope || "nyc"];
+  showResult(`Your guess was ${formatDistance(miles)} away`, spot.name, spot.memory, geoScore(miles, scope.curve));
 
   // keep both pins clear of the score bar (top) and the result card (bottom)
   map.flyToBounds(L.latLngBounds([guess, answer]), {
@@ -231,27 +266,29 @@ function revealDate(spot) {
   const actual = new Date(spot.answerDate + "T00:00:00Z");
   const daysOff = Math.round(Math.abs(guessed - actual) / 86400000);
 
-  const verdict = DATE_VERDICTS.find((v) => daysOff < v.under);
   const detail =
     daysOff === 0
       ? `${formatDate(actual)} — you nailed it`
       : `You guessed ${formatDate(guessed)} — off by ${daysOff} ${daysOff === 1 ? "day" : "days"}`;
   const nameLine = [spot.name, formatDate(actual)].filter(Boolean).join(" · ");
-  showResult(verdict, detail, nameLine, spot.memory, dateScore(daysOff));
+  showResult(detail, nameLine, spot.memory, dateScore(daysOff));
 }
 
-function showResult(verdict, detail, name, memory, points) {
-  document.getElementById("result-eyebrow").textContent = verdict.eyebrow;
-  document.getElementById("result-headline").textContent = verdict.headline;
+function showResult(detail, name, memory, points) {
+  document.getElementById("result-headline").textContent = pickHeadline(points);
   document.getElementById("result-distance").textContent = detail;
   roundScoreNumEl.textContent = "0";
+
+  const verdictCard = document.getElementById("verdict-card");
+  verdictCard.classList.remove("tier-high", "tier-mid", "tier-low");
+  verdictCard.classList.add(points >= 80 ? "tier-high" : points >= 50 ? "tier-mid" : "tier-low");
 
   const memoryBlock = document.querySelector(".memory");
   document.getElementById("memory-name").textContent = name;
   document.getElementById("memory-text").textContent = memory;
   memoryBlock.classList.toggle("hidden", !name && !memory);
 
-  nextBtn.textContent = round + 1 < SPOTS.length ? "Next memory" : "Play again";
+  nextBtn.textContent = round + 1 < SPOTS.length ? "Next memory" : "See your award";
   promptCard.classList.add("hidden");
   resultCard.classList.remove("hidden");
 
@@ -263,13 +300,93 @@ function showResult(verdict, detail, name, memory, points) {
 }
 
 nextBtn.addEventListener("click", () => {
-  round = (round + 1) % SPOTS.length;
-  startRound(round);
+  if (round + 1 < SPOTS.length) {
+    round++;
+    startRound(round);
+  } else {
+    showAwards();
+  }
 });
+
+// ---- awards ----
+const awardsEl = document.getElementById("awards");
+let confettiRaf = null;
+
+function showAwards() {
+  resultCard.classList.add("hidden");
+  document.getElementById("award-score-num").textContent = totalScore;
+  document.getElementById("award-score-max").textContent = MAX_SCORE;
+
+  // Tiers scale with the round count: 80% = the old 400/500, 60% = 300/500.
+  const pct = totalScore / MAX_SCORE;
+  const headline =
+    pct >= 0.8 ? "Master Mapper" :
+    pct >= 0.6 ? "Passable, but you may need to go to graduate school in geography" :
+    "Good thing you have a day job because you ain't doing so well on this";
+  document.getElementById("award-headline").textContent = headline;
+
+  const top = pct >= 0.8;
+  document.getElementById("award-badge").classList.toggle("hidden", !top);
+  document.getElementById("award-hamster").classList.toggle("hidden", !top);
+
+  awardsEl.classList.remove("hidden");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (top && !reduce) startConfetti();
+}
+
+document.getElementById("replay-btn").addEventListener("click", () => {
+  stopConfetti();
+  awardsEl.classList.add("hidden");
+  round = 0;
+  startRound(0);
+});
+
+function startConfetti() {
+  const canvas = document.getElementById("confetti-canvas");
+  const ctx = canvas.getContext("2d");
+  const dpr = Math.min(window.devicePixelRatio, 2);
+  canvas.width = canvas.clientWidth * dpr;
+  canvas.height = canvas.clientHeight * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.clientWidth, H = canvas.clientHeight;
+  const COLORS = ["#c9364d", "#2f5539", "#9a7b4f", "#e0687c", "#f3d9dd"];
+  const pieces = Array.from({ length: 140 }, () => ({
+    x: Math.random() * W,
+    y: -20 - Math.random() * H,
+    w: 6 + Math.random() * 6,
+    h: 8 + Math.random() * 8,
+    vy: 1.6 + Math.random() * 2.6,
+    vx: -0.8 + Math.random() * 1.6,
+    rot: Math.random() * Math.PI,
+    vr: -0.08 + Math.random() * 0.16,
+    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+  }));
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of pieces) {
+      p.y += p.vy; p.x += p.vx; p.rot += p.vr;
+      if (p.y > H + 20) { p.y = -20; p.x = Math.random() * W; }
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    }
+    confettiRaf = requestAnimationFrame(frame);
+  }
+  confettiRaf = requestAnimationFrame(frame);
+}
+
+function stopConfetti() {
+  if (confettiRaf) cancelAnimationFrame(confettiRaf);
+  confettiRaf = null;
+}
 
 function formatDistance(miles) {
   if (miles < 0.19) return `${Math.round(miles * 5280)} ft`;
-  return `${miles.toFixed(1)} mi`;
+  if (miles < 10) return `${miles.toFixed(1)} mi`;
+  return `${Math.round(miles).toLocaleString()} mi`;
 }
 
 function formatDate(d) {

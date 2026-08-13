@@ -21,7 +21,19 @@
       <p class="intro-sub">Tap dat map</p>
     </div>
     <button class="btn intro-start" id="start-btn">Start Journey</button>
-    <p class="intro-footer">Developed by Shabab Inc Games Division&trade;</p>
+    <p class="intro-footer">
+      <svg class="footer-guy" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M32 4 C14 4 8 20 8 34 C8 48 12 58 14 60 L50 60 C52 58 56 48 56 34 C56 20 50 4 32 4 Z" fill="#f7f3ea" stroke="#d8cfbc" stroke-width="1.5"/>
+        <circle cx="32" cy="34" r="15" fill="#c68642"/>
+        <path d="M22 40 C24 46 40 46 42 40 C40 48 24 48 22 40 Z" fill="#4a3222"/>
+        <circle cx="26.5" cy="32" r="1.8" fill="#2b2118"/>
+        <circle cx="37.5" cy="32" r="1.8" fill="#2b2118"/>
+        <path d="M28 38 Q32 41 36 38" stroke="#2b2118" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <rect x="15" y="16" width="34" height="5" rx="2.5" fill="#1c1712"/>
+        <rect x="16" y="22" width="32" height="4.4" rx="2.2" fill="#1c1712"/>
+      </svg>
+      <span>Developed by Shabab Inc Games Division&trade;</span>
+    </p>
   </div>
 
   <div id="map" aria-label="Map of New York City"></div>
@@ -43,22 +55,39 @@
   <!-- Intro / prompt card -->
   <div class="card prompt-card" id="prompt-card">
     <h1 class="prompt" id="prompt-text">Where did we have our first date?</h1>
+    <p class="prompt-subtext hidden" id="prompt-subtext"></p>
     <p class="hint" id="tap-hint">Tap the map to drop your guess.</p>
     <input type="date" id="date-input" class="date-input hidden" aria-label="Your date guess">
     <button class="btn" id="confirm-btn" disabled>Lock it in</button>
   </div>
 
   <!-- Result card -->
-  <div class="card result-card hidden" id="result-card">
-    <p class="eyebrow" id="result-eyebrow">The verdict</p>
-    <h2 class="result-headline" id="result-headline"></h2>
-    <p class="round-score"><span id="round-score-num">0</span><span class="round-score-max"> / 100</span> points this round</p>
-    <p class="result-distance" id="result-distance"></p>
-    <div class="memory">
-      <p class="memory-name" id="memory-name"></p>
-      <p class="memory-text" id="memory-text"></p>
+  <div class="result-stack hidden" id="result-card">
+    <div class="card verdict-card" id="verdict-card">
+      <h2 class="result-headline" id="result-headline"></h2>
+      <p class="round-score"><span id="round-score-num">0</span><span class="round-score-max"> / 100</span> points this round</p>
+      <p class="result-distance" id="result-distance"></p>
     </div>
-    <button class="btn" id="next-btn">Play again</button>
+    <div class="card memory-card">
+      <div class="memory">
+        <p class="memory-name" id="memory-name"></p>
+        <p class="memory-text" id="memory-text"></p>
+      </div>
+      <button class="btn" id="next-btn">Play again</button>
+    </div>
+  </div>
+
+  <!-- End-of-game awards -->
+  <div id="awards" class="hidden">
+    <canvas id="confetti-canvas"></canvas>
+    <div class="award-card">
+      <p class="eyebrow">Final score</p>
+      <p class="award-score"><span id="award-score-num">0</span> / <span id="award-score-max">900</span></p>
+      <div class="award-hamster hidden" id="award-hamster" aria-hidden="true">🐹</div>
+      <h2 class="award-headline" id="award-headline"></h2>
+      <button class="btn" id="replay-btn">Play again</button>
+    </div>
+    <div class="award-badge hidden" id="award-badge" aria-hidden="true">👌<span>BRUNSON&nbsp;3</span></div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
