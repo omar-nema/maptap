@@ -111,6 +111,8 @@ let revealLayers = [];
 let locked = false;
 let totalScore = 0;
 let scoreRaf = null;
+let activeScopeKey = "nyc";
+let pendingScopeMoveEnd = null;
 
 // Points out of 100 from a scope's [miles, points] anchor curve.
 function geoScore(miles, curve) {
@@ -169,6 +171,59 @@ function animateScore(prevTotal, newTotal, roundPoints) {
   scoreRaf = requestAnimationFrame(frame);
 }
 
+function applyScopeConstraints(scope) {
+  map.setMinZoom(scope.minZoom);
+  map.setMaxBounds(L.latLngBounds(scope.bounds));
+}
+
+function transitionToScope(scopeKey) {
+  const scope = SCOPES[scopeKey];
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (pendingScopeMoveEnd) {
+    map.off("moveend", pendingScopeMoveEnd);
+    pendingScopeMoveEnd = null;
+  }
+  map.stop();
+
+  // Let the camera travel freely first. Tight bounds/minZoom can clamp the
+  // current view before `flyTo` starts, which causes visible jitter on big hops.
+  map.setMaxBounds(null);
+  map.setMinZoom(Math.min(scope.minZoom, map.getZoom(), 1));
+
+  if (reduce) {
+    map.setView(scope.center, scope.zoom, { animate: false });
+    applyScopeConstraints(scope);
+    activeScopeKey = scopeKey;
+    return;
+  }
+
+  const miles = map.getCenter().distanceTo(L.latLng(scope.center)) / 1609.344;
+  const zoomDelta = Math.abs(map.getZoom() - scope.zoom);
+  if (miles < 0.01 && zoomDelta < 0.01) {
+    map.setView(scope.center, scope.zoom, { animate: false });
+    applyScopeConstraints(scope);
+    activeScopeKey = scopeKey;
+    return;
+  }
+
+  const scopeChanged = scopeKey !== activeScopeKey;
+  const duration = scopeChanged
+    ? Math.min(2.2, Math.max(1.1, 0.85 + zoomDelta * 0.08 + miles / 2600))
+    : 0.8;
+
+  pendingScopeMoveEnd = () => {
+    pendingScopeMoveEnd = null;
+    applyScopeConstraints(scope);
+    activeScopeKey = scopeKey;
+  };
+  map.once("moveend", pendingScopeMoveEnd);
+  map.flyTo(scope.center, scope.zoom, {
+    duration,
+    easeLinearity: 0.18,
+  });
+}
+
 function startRound(i) {
   const spot = SPOTS[i];
   if (i === 0) resetScore(); // fresh game (also the initial load)
@@ -196,10 +251,7 @@ function startRound(i) {
   resultCard.classList.add("hidden");
   promptCard.classList.remove("hidden");
 
-  const scope = SCOPES[spot.scope || "nyc"];
-  map.setMinZoom(scope.minZoom);
-  map.setMaxBounds(L.latLngBounds(scope.bounds));
-  map.flyTo(scope.center, scope.zoom, { duration: 0.8 });
+  transitionToScope(spot.scope || "nyc");
 }
 
 map.on("click", (e) => {

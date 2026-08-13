@@ -8,12 +8,15 @@
   const FACE_SRC = "assets/vuk-face.jpg";
   const TITLE_AT = 1200;   // "VUK VUK" appears
   const GAME_AT = 4000;    // first circle
-  const LAST_SPAWN = 41500;
   const FADE_AT = 40000;   // audio fade starts
   const END_AT = 45000;    // hard end
   const DROP_AT = 28000;   // the song picks up — so do we
-  const SPAWN_EVERY = 1250, SPAWN_FAST = 700;
-  const APPROACH = 1600, APPROACH_FAST = 1150;
+  // Measured from the track itself: 150 BPM, first beat at 367ms.
+  // Every circle's ring LANDS on a beat.
+  const BEAT = 400, BEAT0 = 367;
+  const LAST_HIT = 42600;
+  const APPROACH = 4 * BEAT, APPROACH_FAST = 3 * BEAT;
+  const nextBeat = (ms) => BEAT0 + Math.ceil((ms - BEAT0) / BEAT) * BEAT;
 
   window.startVukVuk = function (onDone) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -112,7 +115,7 @@
       el.className = "vuk-circle";
       el.style.left = `${x}px`;
       el.style.top = `${y}px`;
-      el.innerHTML = `<div class="vuk-ring"></div><span>${((total - 1) % 4) + 1}</span>`;
+      el.innerHTML = `<div class="vuk-ring"></div>`;
       el.querySelector(".vuk-ring").style.animationDuration = `${approach}ms`;
       field.appendChild(el);
 
@@ -154,24 +157,36 @@
       timers.push(setTimeout(() => judge("✗", false), approach + 320));
     }
 
-    // cruise until the drop, then faster rings, denser spawns, doubles
-    for (let t = GAME_AT; t < DROP_AT; t += SPAWN_EVERY) {
-      timers.push(setTimeout(() => spawnCircle(APPROACH), t));
+    // schedule by LANDING time, quantized to the beat grid:
+    // cruise = a hit every 3 beats; after the drop every 2 beats, with
+    // every 4th hit followed by a double on the beat between.
+    // Anchored to the moment the audio actually starts, so the grid
+    // stays glued to the song.
+    let timelineArmed = false;
+    function armTimeline() {
+      if (timelineArmed || finished) return;
+      timelineArmed = true;
+      const scheduleHit = (hitT, approach) =>
+        timers.push(setTimeout(() => spawnCircle(approach), hitT - approach));
+      for (let h = nextBeat(GAME_AT + APPROACH); h < DROP_AT; h += 3 * BEAT) {
+        scheduleHit(h, APPROACH);
+      }
+      let n = 0;
+      for (let h = nextBeat(DROP_AT); h <= LAST_HIT; h += 2 * BEAT) {
+        scheduleHit(h, APPROACH_FAST);
+        if (++n % 4 === 0 && h + BEAT <= LAST_HIT) scheduleHit(h + BEAT, APPROACH_FAST);
+      }
+      timers.push(setTimeout(() => {
+        const fadeTick = setInterval(() => {
+          audio.volume = Math.max(0, audio.volume - 0.022);
+          if (audio.volume <= 0) clearInterval(fadeTick);
+        }, 100);
+        timers.push(fadeTick);
+      }, FADE_AT));
+      timers.push(setTimeout(explodeFinale, END_AT));
     }
-    let n = 0;
-    for (let t = DROP_AT; t <= LAST_SPAWN; t += SPAWN_FAST) {
-      timers.push(setTimeout(() => spawnCircle(APPROACH_FAST), t));
-      if (++n % 4 === 0) timers.push(setTimeout(() => spawnCircle(APPROACH_FAST), t + 200));
-    }
-
-    // ---- fade out and end ----
-    timers.push(setTimeout(() => {
-      const fadeTick = setInterval(() => {
-        audio.volume = Math.max(0, audio.volume - 0.022);
-        if (audio.volume <= 0) clearInterval(fadeTick);
-      }, 100);
-      timers.push(fadeTick);
-    }, FADE_AT));
+    audio.addEventListener("playing", armTimeline, { once: true });
+    timers.push(setTimeout(armTimeline, 2000)); // safety net
 
     // the face takes center stage and explodes, then the score
     function explodeFinale() {
@@ -207,7 +222,6 @@
         timers.push(setTimeout(finish, 950));
       }, 950));
     }
-    timers.push(setTimeout(explodeFinale, END_AT));
   };
 
   // ?vuk in the URL jumps straight to the finale (tap first — browsers
