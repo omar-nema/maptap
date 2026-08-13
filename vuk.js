@@ -63,9 +63,10 @@
     const comboEl = overlay.querySelector(".vuk-combo");
 
     // ---- flying face (DVD-logo chaos with spin) ----
+    let exploding = false;
     let fx = 40, fy = 120, fvx = 7, fvy = 5.4, frot = 0;
     function flyFace() {
-      if (finished) return;
+      if (finished || exploding) return;
       const fw = face.clientWidth || 120, fh = face.clientHeight || 172;
       const W = overlay.clientWidth, H = overlay.clientHeight;
       fx += fvx; fy += fvy; frot += 3.2;
@@ -90,12 +91,23 @@
 
     // ---- EBA-style circles ----
     let hits = 0, total = 0, combo = 0;
+    const active = []; // live circles, so new ones keep their distance
     function spawnCircle(approach) {
       if (finished) return;
       total++;
       const W = overlay.clientWidth, H = overlay.clientHeight;
-      const x = W * (0.14 + Math.random() * 0.72);
-      const y = H * (0.2 + Math.random() * 0.55);
+      // pick the candidate furthest from live circles; accept early if clear
+      let x, y, bestD = -1;
+      for (let i = 0; i < 14; i++) {
+        const cx = W * (0.14 + Math.random() * 0.72);
+        const cy = H * (0.2 + Math.random() * 0.55);
+        let dmin = Infinity;
+        for (const a of active) dmin = Math.min(dmin, Math.hypot(cx - a.x, cy - a.y));
+        if (dmin > bestD) { bestD = dmin; x = cx; y = cy; }
+        if (dmin >= 130) break;
+      }
+      const pos = { x, y };
+      active.push(pos);
       const el = document.createElement("div");
       el.className = "vuk-circle";
       el.style.left = `${x}px`;
@@ -110,9 +122,18 @@
       function judge(label, ok) {
         if (judged) return;
         judged = true;
+        active.splice(active.indexOf(pos), 1);
         combo = ok ? combo + 1 : 0;
         if (ok) hits++;
         comboEl.textContent = combo >= 2 ? `${combo}x` : "";
+        if (ok) {
+          const rip = document.createElement("div");
+          rip.className = "vuk-ripple";
+          rip.style.left = el.style.left;
+          rip.style.top = el.style.top;
+          field.appendChild(rip);
+          setTimeout(() => rip.remove(), 560);
+        }
         const splash = document.createElement("div");
         splash.className = `vuk-splash ${ok ? "ok" : "bad"}`;
         splash.textContent = label;
@@ -151,6 +172,55 @@
       }, 100);
       timers.push(fadeTick);
     }, FADE_AT));
-    timers.push(setTimeout(finish, END_AT));
+
+    // the face takes center stage and explodes, then the score
+    function explodeFinale() {
+      if (finished || exploding) return;
+      exploding = true;
+      field.innerHTML = "";
+      comboEl.textContent = "";
+      face.classList.remove("vuk-face-dim");
+      const W = overlay.clientWidth, H = overlay.clientHeight;
+      const cx = W / 2 - (face.clientWidth || 120) / 2;
+      const cy = H / 2 - (face.clientHeight || 172) / 2;
+      face.style.transition = "transform 0.85s cubic-bezier(0.3, 0.7, 0.3, 1)";
+      face.style.transform = `translate(${cx}px, ${cy}px) rotate(${frot + 360}deg) scale(1.9)`;
+      timers.push(setTimeout(() => {
+        face.style.transition = "transform 0.18s ease-in, opacity 0.18s ease-in";
+        face.style.transform = `translate(${cx}px, ${cy}px) rotate(${frot + 400}deg) scale(3.4)`;
+        face.style.opacity = "0";
+        const colors = ["#e8332a", "#ffd94d", "#ffffff", "#2447d6", "#e78fb3"];
+        for (let i = 0; i < 26; i++) {
+          const p = document.createElement("div");
+          p.className = "vuk-shard";
+          p.style.background = colors[i % colors.length];
+          p.style.left = `${W / 2}px`;
+          p.style.top = `${H / 2}px`;
+          overlay.appendChild(p);
+          const ang = (i / 26) * Math.PI * 2 + Math.random() * 0.5;
+          const dist = 130 + Math.random() * Math.max(W, H) * 0.5;
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            p.style.transform = `translate(${Math.cos(ang) * dist}px, ${Math.sin(ang) * dist}px) rotate(${Math.random() * 720 - 360}deg)`;
+            p.style.opacity = "0";
+          }));
+        }
+        timers.push(setTimeout(finish, 950));
+      }, 950));
+    }
+    timers.push(setTimeout(explodeFinale, END_AT));
   };
+
+  // ?vuk in the URL jumps straight to the finale (tap first — browsers
+  // refuse to start audio without a user gesture).
+  if (new URLSearchParams(location.search).has("vuk")) {
+    document.getElementById("intro")?.remove();
+    const gate = document.createElement("div");
+    gate.id = "vuk-gate";
+    gate.innerHTML = "<span>tap to vuk</span>";
+    document.body.appendChild(gate);
+    gate.addEventListener("pointerdown", () => {
+      gate.remove();
+      window.startVukVuk(window.showAwards);
+    }, { once: true });
+  }
 })();
