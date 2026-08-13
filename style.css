@@ -10,7 +10,7 @@
 
 html, body {
   height: 100%;
-  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
   color: #2b2118;
   overflow: hidden;
 }
@@ -42,7 +42,103 @@ html, body {
   text-align: center;
 }
 
-.prompt-card { top: 20px; }
+.prompt-card { top: calc(66px + env(safe-area-inset-top, 0px)); }
+
+/* ---- running score meter ---- */
+
+.scorebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  background: rgba(250, 246, 238, 0.82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(43, 33, 24, 0.14);
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.scorebar-inner {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 11px 20px 13px;
+}
+
+.score-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9a7b4f;
+}
+
+.score-value {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  color: #2b2118;
+  font-variant-numeric: tabular-nums;
+  transform-origin: left center;
+  margin-left: auto;
+}
+
+.score-value.bump { animation: score-bump 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.4); }
+
+@keyframes score-bump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.score-max {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(43, 33, 24, 0.5);
+  font-variant-numeric: tabular-nums;
+}
+
+.score-pop {
+  position: absolute;
+  right: 20px;
+  top: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #c9364d;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.score-pop.show { animation: score-pop 1s ease-out; }
+
+@keyframes score-pop {
+  0% { opacity: 0; transform: translateY(8px) scale(0.9); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-16px) scale(1); }
+}
+
+.score-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px;
+  background: rgba(43, 33, 24, 0.1);
+  overflow: hidden;
+}
+
+.score-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #e0687c, #c9364d);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
 
 .result-card {
   bottom: 28px;
@@ -66,11 +162,11 @@ html, body {
 }
 
 .prompt, .result-headline {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 1.15;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 27px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
 
@@ -87,6 +183,20 @@ html, body {
   margin-bottom: 6px;
 }
 
+.round-score {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #c9364d;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 8px;
+}
+
+.round-score-max {
+  color: rgba(43, 33, 24, 0.45);
+  font-weight: 500;
+}
+
 .memory {
   border-top: 1px dashed rgba(43, 33, 24, 0.3);
   margin: 14px 0 16px;
@@ -94,8 +204,10 @@ html, body {
 }
 
 .memory-name {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: 22px;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.01em;
   margin-bottom: 6px;
 }
 
@@ -178,7 +290,7 @@ html, body {
 .distance-label {
   background: #2b2118;
   color: #faf6ee;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;

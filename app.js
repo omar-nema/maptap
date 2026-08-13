@@ -64,13 +64,85 @@ const nextBtn = document.getElementById("next-btn");
 const dateInput = document.getElementById("date-input");
 const tapHint = document.getElementById("tap-hint");
 
+// ---- score meter ----
+const scoreValueEl = document.getElementById("score-value");
+const scoreFillEl = document.getElementById("score-fill");
+const scorePopEl = document.getElementById("score-pop");
+const roundScoreNumEl = document.getElementById("round-score-num");
+const MAX_SCORE = SPOTS.length * 100;
+document.getElementById("score-max").textContent = `/ ${MAX_SCORE}`;
+
 let round = 0;
 let guessMarker = null;
 let revealLayers = [];
 let locked = false;
+let totalScore = 0;
+let scoreRaf = null;
+
+// Points per round, out of 100. Anchored to the distances you gave:
+// 0.5 mi = 100, 1 mi = 80, 2 mi = 50, fading to 0 by 3.5 mi.
+function geoScore(miles) {
+  let p;
+  if (miles <= 0.5) p = 100;
+  else if (miles <= 1) p = 100 - ((miles - 0.5) / 0.5) * 20;
+  else if (miles <= 2) p = 80 - (miles - 1) * 30;
+  else if (miles <= 3.5) p = 50 - ((miles - 2) / 1.5) * 50;
+  else p = 0;
+  return Math.max(0, Math.round(p));
+}
+
+// Same shape for dates: exact = 100, 7 days = 80, 30 days = 50, 0 by 90 days.
+function dateScore(daysOff) {
+  let p;
+  if (daysOff <= 0) p = 100;
+  else if (daysOff <= 7) p = 100 - (daysOff / 7) * 20;
+  else if (daysOff <= 30) p = 80 - ((daysOff - 7) / 23) * 30;
+  else if (daysOff <= 90) p = 50 - ((daysOff - 30) / 60) * 50;
+  else p = 0;
+  return Math.max(0, Math.round(p));
+}
+
+function resetScore() {
+  totalScore = 0;
+  if (scoreRaf) cancelAnimationFrame(scoreRaf);
+  scoreValueEl.textContent = "0";
+  scoreFillEl.style.transform = "scaleX(0)";
+}
+
+function easeOutExpo(t) {
+  return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+}
+
+// Count total (prev -> new) and the round chip (0 -> points) off one eased clock.
+function animateScore(prevTotal, newTotal, roundPoints) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  scorePopEl.textContent = `+${roundPoints}`;
+  scorePopEl.classList.remove("show");
+  scoreValueEl.classList.remove("bump");
+  void scorePopEl.offsetWidth; // restart the CSS animations
+  scorePopEl.classList.add("show");
+  scoreValueEl.classList.add("bump");
+
+  if (scoreRaf) cancelAnimationFrame(scoreRaf);
+  const dur = reduce ? 0 : 950;
+  const start = performance.now();
+
+  function frame(now) {
+    const t = dur ? Math.min((now - start) / dur, 1) : 1;
+    const e = easeOutExpo(t);
+    const total = prevTotal + (newTotal - prevTotal) * e;
+    scoreValueEl.textContent = Math.round(total);
+    roundScoreNumEl.textContent = Math.round(roundPoints * e);
+    scoreFillEl.style.transform = `scaleX(${(total / MAX_SCORE).toFixed(4)})`;
+    if (t < 1) scoreRaf = requestAnimationFrame(frame);
+  }
+  scoreRaf = requestAnimationFrame(frame);
+}
 
 function startRound(i) {
   const spot = SPOTS[i];
+  if (i === 0) resetScore(); // fresh game (also the initial load)
   document.getElementById("round-label").textContent = `Round ${i + 1} of ${SPOTS.length}`;
   document.getElementById("prompt-text").textContent = spot.prompt;
   confirmBtn.disabled = true;
@@ -144,13 +216,13 @@ function revealMap(spot) {
   revealLayers = [answerMarker, line, label];
 
   const verdict = MAP_VERDICTS.find((v) => miles < v.under);
-  showResult(verdict, `Your guess was ${formatDistance(miles)} away`, spot.name, spot.memory);
+  showResult(verdict, `Your guess was ${formatDistance(miles)} away`, spot.name, spot.memory, geoScore(miles));
 
-  // keep both pins clear of the result card, whatever its height
+  // keep both pins clear of the score bar (top) and the result card (bottom)
   map.flyToBounds(L.latLngBounds([guess, answer]), {
     duration: 0.9,
     maxZoom: 15,
-    paddingTopLeft: [40, 70],
+    paddingTopLeft: [40, 96],
     paddingBottomRight: [40, resultCard.offsetHeight + 76],
   });
 }
@@ -166,13 +238,14 @@ function revealDate(spot) {
       ? `${formatDate(actual)} — you nailed it`
       : `You guessed ${formatDate(guessed)} — off by ${daysOff} ${daysOff === 1 ? "day" : "days"}`;
   const nameLine = [spot.name, formatDate(actual)].filter(Boolean).join(" · ");
-  showResult(verdict, detail, nameLine, spot.memory);
+  showResult(verdict, detail, nameLine, spot.memory, dateScore(daysOff));
 }
 
-function showResult(verdict, detail, name, memory) {
+function showResult(verdict, detail, name, memory, points) {
   document.getElementById("result-eyebrow").textContent = verdict.eyebrow;
   document.getElementById("result-headline").textContent = verdict.headline;
   document.getElementById("result-distance").textContent = detail;
+  roundScoreNumEl.textContent = "0";
 
   const memoryBlock = document.querySelector(".memory");
   document.getElementById("memory-name").textContent = name;
@@ -182,6 +255,12 @@ function showResult(verdict, detail, name, memory) {
   nextBtn.textContent = round + 1 < SPOTS.length ? "Next memory" : "Play again";
   promptCard.classList.add("hidden");
   resultCard.classList.remove("hidden");
+
+  // let the card settle, then run the meter up
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const prev = totalScore;
+  totalScore += points;
+  setTimeout(() => animateScore(prev, totalScore, points), reduce ? 0 : 260);
 }
 
 nextBtn.addEventListener("click", () => {
