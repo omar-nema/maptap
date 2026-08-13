@@ -70,8 +70,7 @@
     </div>
     <div class="card memory-card">
       <div class="memory">
-        <p class="memory-name" id="memory-name"></p>
-        <p class="memory-text" id="memory-text"></p>
+        <p class="memory-line"><strong id="memory-name"></strong><span id="memory-text"></span></p>
       </div>
       <button class="btn" id="next-btn">Play again</button>
     </div>
@@ -83,11 +82,64 @@
     <div class="award-card">
       <p class="eyebrow">Final score</p>
       <p class="award-score"><span id="award-score-num">0</span> / <span id="award-score-max">900</span></p>
-      <div class="award-hamster hidden" id="award-hamster" aria-hidden="true">🐹</div>
+
+      <!-- happy smiski: little green guy, arms up -->
+      <div class="award-smiski smiski-happy hidden" id="smiski-happy" aria-hidden="true">
+        <svg viewBox="0 0 80 92" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="40" cy="87" rx="19" ry="3.5" fill="rgba(43,33,24,0.08)"/>
+          <path d="M25 52 Q13 45 11 33" fill="none" stroke="#d8e5b2" stroke-width="8" stroke-linecap="round"/>
+          <path d="M55 52 Q67 45 69 33" fill="none" stroke="#d8e5b2" stroke-width="8" stroke-linecap="round"/>
+          <rect x="27" y="42" width="26" height="42" rx="13" fill="#d8e5b2"/>
+          <ellipse cx="40" cy="26" rx="23" ry="20" fill="#d8e5b2"/>
+          <circle cx="32" cy="36" r="2" fill="#2e2e28"/>
+          <circle cx="48" cy="36" r="2" fill="#2e2e28"/>
+          <ellipse cx="40" cy="42" rx="1.8" ry="2.2" fill="#2e2e28"/>
+        </svg>
+      </div>
+
+      <!-- sad smiski: slumped, staring at the floor -->
+      <div class="award-smiski smiski-sad hidden" id="smiski-sad" aria-hidden="true">
+        <svg viewBox="0 0 80 92" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="40" cy="87" rx="19" ry="3.5" fill="rgba(43,33,24,0.08)"/>
+          <path d="M28 52 Q24 66 27 76" fill="none" stroke="#d8e5b2" stroke-width="8" stroke-linecap="round"/>
+          <path d="M52 52 Q56 66 53 76" fill="none" stroke="#d8e5b2" stroke-width="8" stroke-linecap="round"/>
+          <rect x="27" y="44" width="26" height="40" rx="13" fill="#d8e5b2"/>
+          <ellipse cx="40" cy="30" rx="23" ry="20" transform="rotate(-7 40 30)" fill="#d8e5b2"/>
+          <circle cx="31" cy="42" r="2" fill="#2e2e28"/>
+          <circle cx="46" cy="44" r="2" fill="#2e2e28"/>
+          <path d="M34 50 Q38.5 48 43 50.5" stroke="#2e2e28" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+
       <h2 class="award-headline" id="award-headline"></h2>
       <button class="btn" id="replay-btn">Play again</button>
     </div>
-    <div class="award-badge hidden" id="award-badge" aria-hidden="true">👌<span>BRUNSON&nbsp;3</span></div>
+
+    <!-- lil Brunson hitting the 3 sign -->
+    <div class="award-badge hidden" id="award-badge" aria-hidden="true">
+      <svg viewBox="0 0 90 120" xmlns="http://www.w3.org/2000/svg">
+        <!-- raised arm with three fingers to the temple -->
+        <path d="M62 44 Q74 36 72 22" fill="none" stroke="#8d5a3b" stroke-width="9" stroke-linecap="round"/>
+        <path d="M69 20 L66 8" stroke="#8d5a3b" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M73 21 L74 7" stroke="#8d5a3b" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M77 23 L81 10" stroke="#8d5a3b" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="45" cy="30" r="15" fill="#8d5a3b"/>
+        <path d="M31 26 C31 16 59 16 59 26 L59 22 C55 12 35 12 31 22 Z" fill="#1c1712"/>
+        <path d="M33 34 C36 44 54 44 57 34 C56 42 52 46 45 46 C38 46 34 42 33 34 Z" fill="#1c1712"/>
+        <!-- jersey -->
+        <path d="M30 50 L60 50 L64 92 L26 92 Z" fill="#0f6bb8"/>
+        <path d="M30 50 L26 92 L32 92 L35 50 Z" fill="#f58426"/>
+        <path d="M60 50 L64 92 L58 92 L55 50 Z" fill="#f58426"/>
+        <!-- left arm down -->
+        <path d="M30 54 Q22 66 25 78" fill="none" stroke="#8d5a3b" stroke-width="8" stroke-linecap="round"/>
+        <!-- number 11 -->
+        <rect x="40" y="62" width="4" height="18" rx="1.5" fill="#fff"/>
+        <rect x="48" y="62" width="4" height="18" rx="1.5" fill="#fff"/>
+        <!-- shorts -->
+        <path d="M28 92 L62 92 L64 108 L48 108 L45 100 L42 108 L26 108 Z" fill="#f58426"/>
+      </svg>
+    </div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

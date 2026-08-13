@@ -9,7 +9,7 @@
 // re-encode with  btoa(JSON.stringify(spots))  — then paste back below.
 // ---------------------------------------------------------------
 const SPOTS_ENCODED =
-  "W3sidHlwZSI6Im1hcCIsInByb21wdCI6IldoZXJlIGRpZCB3ZSBoYXZlIG91ciBmaXJzdCBkYXRlPyIsImFuc3dlciI6WzQwLjcxNzAxNjgsLTczLjk0OTk4MTNdLCJuYW1lIjoiTmlnaHQgb2YgSm95IiwibWVtb3J5IjoiWW91IHdlcmUgd2VhcmluZyBhIGRyZXNzLCBJIHdhcyB3ZWFyaW5nIGEgc2hvcnQgc2xlZXZlIGJ1dHRvbiB1cC4gV2Ugc3RhcnRlZCBieSB0YWxraW5nIGFib3V0IG1pZHNvbW1hciwgeW91IHdlcmUgc3VwZXIgY3V0ZSBhbmQgYSBsaWwgc2h5IGFuZCBoYWQgeW91ciBzaG9ydCBoYWlyIn0seyJ0eXBlIjoibWFwIiwicHJvbXB0IjoiV2hlcmUgZGlkIHdlIGdldCBvdXIgZmlyc3QgdGF0dG9vcz8iLCJhbnN3ZXIiOls0MC43MDA3NzQxLC03My45MDIwMDk5XSwibmFtZSI6Ik5pY28ncyBwbGFjZSIsIm1lbW9yeSI6Ik5pY28ncyBwbGFjZSBhdCA5NDAgT25kZXJkb25rIEF2ZSwgUmlkZ2V3b29kLiBZb3UgZ290IGEgdHJhbXAgc3RhbXAsIGFuZCBtZSBhIGxpbCBuZWNrIHRhdC4ifSx7InR5cGUiOiJkYXRlIiwicHJvbXB0IjoiV2hlbiBkaWQgd2Ugc2VlIFJhbXkgdG9nZXRoZXI/Iiwic3VidGV4dCI6IkFuZCB5b3UgdGhvdWdodCB0aGlzIHdhcyBqdXN0IGEgbWFwIPCfmIgiLCJhbnN3ZXJEYXRlIjoiMjAyMy0xMi0wOCIsIm5hbWUiOiIiLCJtZW1vcnkiOiJCZWZvcmUgTzIgcnVpbmVkIFJhbXkgZm9yIHVzIn0seyJ0eXBlIjoibWFwIiwicHJvbXB0IjoiV2hlcmUgZGlkIHdlIGRpc2N1c3MgZ2V0dGluZyBwaWVyY2luZ3M/IiwiYW5zd2VyIjpbNDAuNzA0MTQyNCwtNzMuOTMzMTU5Nl0sIm5hbWUiOiJFeXZhbCIsIm1lbW9yeSI6IkV5dmFsIENhZmUsIGFmdGVyIEkgY29tcGxpbWVudGVkIHlvdXIgfmNvb2x+IGVhcnJpbmdzIn0seyJ0eXBlIjoibWFwIiwicHJvbXB0IjoiV2hlcmUgZGlkIHdlIHdhdGNoIG91ciBmaXJzdCBtb3ZpZSB0b2dldGhlcj8iLCJhbnN3ZXIiOls0MC43MTU5NzIyLC03My45NjI1NzVdLCJuYW1lIjoiTml0ZWhhd2sgQ2luZW1hIiwibWVtb3J5IjoiVGVlbmFnZSBNdXRhbnQgTmluamEgVHVydGxlcyEhIFN1Y2ggYSBnb29kIG1vdmllLiBJIGxpa2UgdGhlIGRlZXAgbW92aWVzIHlvdSB0YWtlIG1lIHRvIGFzIHdlbGwgYnR3In0seyJ0eXBlIjoibWFwIiwic2NvcGUiOiJ3b3JsZCIsInByb21wdCI6IldoZXJlIGlzIE1hcnlhbSdzICMxIFNwb3RpZnkgYXJ0aXN0IG9mIDIwMjMgZnJvbT8iLCJhbnN3ZXIiOlsxOC40NjU1LC02Ni4xMDU3XSwibmFtZSI6IlB1ZXJ0byBSaWNvIiwibWVtb3J5IjoiQmFkIEJ1bm55IHBhcGl0by4gSGUgd2FzIG15ICM1IGFydGlzdCB0aGF0IHllYXIuIn0seyJ0eXBlIjoibWFwIiwic2NvcGUiOiJ1cyIsInByb21wdCI6IldoZXJlIGlzIE9tYXIncyAjMSBTcG90aWZ5IGFydGlzdCBvZiAyMDIzIGZyb20/IiwiYW5zd2VyIjpbMzQuMDUyMiwtMTE4LjI0MzddLCJuYW1lIjoiTG9zIEFuZ2VsZXMiLCJtZW1vcnkiOiJWaW5jZSBTdGFwbGVzIOKGkiBTaGFiZGpkZWVkIn0seyJ0eXBlIjoiZGF0ZSIsInByb21wdCI6IldoZW4gd2FzIG91ciBmaXJzdCBzemVjaHVhbiBmb29kIHRvZ2V0aGVyPyIsImFuc3dlckRhdGUiOiIyMDI0LTAyLTI5IiwibmFtZSI6IkFudGlkb3RlIiwibWVtb3J5IjoiVGhpcyBvbmUgd2FzIGEgdG91Z2hpZSB5b3UgZGVzZXJ2ZSAxIG1pbGxpb24gcG9pbnRzIGlmIHlvdSBnZXQgaXQifV0=";
+  "W3sidHlwZSI6Im1hcCIsInByb21wdCI6IldoZXJlIGRpZCB3ZSBoYXZlIG91ciBmaXJzdCBkYXRlPyIsImFuc3dlciI6WzQwLjcxNzAxNjgsLTczLjk0OTk4MTNdLCJuYW1lIjoiTmlnaHQgb2YgSm95IiwibWVtb3J5IjoiWW91IHdlcmUgd2VhcmluZyBhIGRyZXNzLCBJIHdhcyB3ZWFyaW5nIGEgc2hvcnQgc2xlZXZlIGJ1dHRvbiB1cC4gV2Ugc3RhcnRlZCBieSB0YWxraW5nIGFib3V0IG1pZHNvbW1hciwgeW91IHdlcmUgc3VwZXIgY3V0ZSBhbmQgYSBsaWwgc2h5IGFuZCBoYWQgeW91ciBzaG9ydCBoYWlyIn0seyJ0eXBlIjoibWFwIiwicHJvbXB0IjoiV2hlcmUgZGlkIHdlIGdldCBvdXIgZmlyc3QgdGF0dG9vcz8iLCJhbnN3ZXIiOls0MC43MDA3NzQxLC03My45MDIwMDk5XSwibmFtZSI6Ik5pY28ncyBwbGFjZSIsIm1lbW9yeSI6Ik5pY28ncyBwbGFjZSBhdCA5NDAgT25kZXJkb25rIEF2ZSwgUmlkZ2V3b29kLiBZb3UgZ290IGEgdHJhbXAgc3RhbXAsIGFuZCBtZSBhIGxpbCBuZWNrIHRhdC4ifSx7InR5cGUiOiJkYXRlIiwicHJvbXB0IjoiV2hlbiBkaWQgd2Ugc2VlIFJhbXkgdG9nZXRoZXI/Iiwic3VidGV4dCI6IkFuZCB5b3UgdGhvdWdodCB0aGlzIHdhcyBqdXN0IGEgbWFwIPCfmIgiLCJhbnN3ZXJEYXRlIjoiMjAyMy0xMi0wOCIsIm5hbWUiOiIiLCJtZW1vcnkiOiJCZWZvcmUgTzIgcnVpbmVkIFJhbXkgZm9yIHVzIn0seyJ0eXBlIjoibWFwIiwicHJvbXB0IjoiV2hlcmUgZGlkIHdlIGRpc2N1c3MgZ2V0dGluZyBwaWVyY2luZ3M/IiwiYW5zd2VyIjpbNDAuNzA0MTQyNCwtNzMuOTMzMTU5Nl0sIm5hbWUiOiJFeXZhbCIsIm1lbW9yeSI6IkV5dmFsIENhZmUsIGFmdGVyIEkgY29tcGxpbWVudGVkIHlvdXIgfmNvb2x+IGVhcnJpbmdzIn0seyJ0eXBlIjoibWFwIiwicHJvbXB0IjoiV2hlcmUgZGlkIHdlIHdhdGNoIG91ciBmaXJzdCBtb3ZpZSB0b2dldGhlcj8iLCJhbnN3ZXIiOls0MC43MTU5NzIyLC03My45NjI1NzVdLCJuYW1lIjoiTml0ZWhhd2sgQ2luZW1hIiwibWVtb3J5IjoiVGVlbmFnZSBNdXRhbnQgTmluamEgVHVydGxlcyEhIFN1Y2ggYSBnb29kIG1vdmllLiBJIGxpa2UgdGhlIGRlZXAgbW92aWVzIHlvdSB0YWtlIG1lIHRvIGFzIHdlbGwgYnR3In0seyJ0eXBlIjoibWFwIiwicHJvbXB0IjoiV2hlcmUgZGlkIHdlIGFsd2F5cyB3YW50IHRvIGdvIHRvIGRpbm5lciBidXQgbmV2ZXIgZ290IGEgY2hhbmNlIGJlZm9yZSBpdCBzaHV0IGRvd24/IiwiYW5zd2VyIjpbNDAuNzE2NjQyOSwtNzMuOTUwNTcxM10sIm5hbWUiOiJMbGFtYSBJbm4iLCJtZW1vcnkiOiJJbnN0ZWFkIHdlIGdvaW5nIHRvIHNpbXBsZSBwZXJ1dmlhbiBzbWgifSx7InR5cGUiOiJtYXAiLCJzY29wZSI6IndvcmxkIiwicHJvbXB0IjoiV2hlcmUgaXMgTWFyeWFtJ3MgIzEgU3BvdGlmeSBhcnRpc3Qgb2YgMjAyMyBmcm9tPyIsImFuc3dlciI6WzE4LjQ2NTUsLTY2LjEwNTddLCJuYW1lIjoiUHVlcnRvIFJpY28iLCJtZW1vcnkiOiJCYWQgQnVubnkgcGFwaXRvLiBIZSB3YXMgbXkgIzUgYXJ0aXN0IHRoYXQgeWVhci4ifSx7InR5cGUiOiJtYXAiLCJzY29wZSI6InVzIiwicHJvbXB0IjoiV2hlcmUgaXMgT21hcidzICMxIFNwb3RpZnkgYXJ0aXN0IG9mIDIwMjMgZnJvbT8iLCJhbnN3ZXIiOlszNC4wNTIyLC0xMTguMjQzN10sIm5hbWUiOiJMb3MgQW5nZWxlcyIsIm1lbW9yeSI6IlZpbmNlIFN0YXBsZXMg4oaSIFNoYWJkamRlZWQifSx7InR5cGUiOiJkYXRlIiwicHJvbXB0IjoiV2hlbiB3YXMgb3VyIGZpcnN0IHN6ZWNodWFuIGZvb2QgdG9nZXRoZXI/IiwiYW5zd2VyRGF0ZSI6IjIwMjQtMDItMjkiLCJuYW1lIjoiQW50aWRvdGUiLCJtZW1vcnkiOiJUaGlzIG9uZSB3YXMgYSB0b3VnaGllIHlvdSBkZXNlcnZlIDEgbWlsbGlvbiBwb2ludHMgaWYgeW91IGdldCBpdCJ9XQ==";
 
 const SPOTS = JSON.parse(decodeURIComponent(escape(atob(SPOTS_ENCODED))));
 
@@ -44,7 +44,8 @@ const PHRASES = {
     "You know ball",
     "Okay Jalen Brunson",
   ],
-  mid: ["Warm... but wander closer."],
+  mid: [], // no mid phrases yet — pickHeadline falls back to high/low split at 65
+
   low: [
     "Sick to my stomach fam",
     "Good lord on ice skates (derogatory)",
@@ -56,7 +57,8 @@ const PHRASES = {
 };
 
 function pickHeadline(points) {
-  const tier = points >= 80 ? "high" : points >= 50 ? "mid" : "low";
+  let tier = points >= 80 ? "high" : points >= 50 ? "mid" : "low";
+  if (!PHRASES[tier].length) tier = points >= 65 ? "high" : "low";
   const list = PHRASES[tier];
   return list[Math.floor(Math.random() * list.length)];
 }
@@ -284,7 +286,7 @@ function showResult(detail, name, memory, points) {
   verdictCard.classList.add(points >= 80 ? "tier-high" : points >= 50 ? "tier-mid" : "tier-low");
 
   const memoryBlock = document.querySelector(".memory");
-  document.getElementById("memory-name").textContent = name;
+  document.getElementById("memory-name").textContent = name ? (memory ? `${name}. ` : name) : "";
   document.getElementById("memory-text").textContent = memory;
   memoryBlock.classList.toggle("hidden", !name && !memory);
 
@@ -326,8 +328,10 @@ function showAwards() {
   document.getElementById("award-headline").textContent = headline;
 
   const top = pct >= 0.8;
+  if (!top) stopConfetti(); // clear any leftovers from a previous game
   document.getElementById("award-badge").classList.toggle("hidden", !top);
-  document.getElementById("award-hamster").classList.toggle("hidden", !top);
+  document.getElementById("smiski-happy").classList.toggle("hidden", !top);
+  document.getElementById("smiski-sad").classList.toggle("hidden", pct >= 0.6);
 
   awardsEl.classList.remove("hidden");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -349,28 +353,48 @@ function startConfetti() {
   canvas.height = canvas.clientHeight * dpr;
   ctx.scale(dpr, dpr);
   const W = canvas.clientWidth, H = canvas.clientHeight;
-  const COLORS = ["#c9364d", "#2f5539", "#9a7b4f", "#e0687c", "#f3d9dd"];
-  const pieces = Array.from({ length: 140 }, () => ({
+  // paper-strip confetti: thin tumbling ribbons that flutter down
+  const COLORS = ["#e63956", "#f4862c", "#f9d65d", "#7cb567", "#5da9e9", "#e78fb3"];
+  // seed half the pieces on-screen so the rain starts instantly
+  const pieces = Array.from({ length: 65 }, () => ({
     x: Math.random() * W,
-    y: -20 - Math.random() * H,
-    w: 6 + Math.random() * 6,
-    h: 8 + Math.random() * 8,
-    vy: 1.6 + Math.random() * 2.6,
-    vx: -0.8 + Math.random() * 1.6,
+    y: Math.random() * H * 2 - H,
+    w: 6 + Math.random() * 4,
+    h: 11 + Math.random() * 7,
+    vy: 1 + Math.random() * 1.6,
+    sway: 20 + Math.random() * 30,
+    freq: 0.012 + Math.random() * 0.018,
+    phase: Math.random() * Math.PI * 2,
     rot: Math.random() * Math.PI,
-    vr: -0.08 + Math.random() * 0.16,
+    vr: -0.06 + Math.random() * 0.12,
+    flip: Math.random() * Math.PI * 2,
+    flipSpeed: 0.06 + Math.random() * 0.08,
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
   }));
+  let t = 0;
   function frame() {
     ctx.clearRect(0, 0, W, H);
+    t++;
     for (const p of pieces) {
-      p.y += p.vy; p.x += p.vx; p.rot += p.vr;
-      if (p.y > H + 20) { p.y = -20; p.x = Math.random() * W; }
+      p.y += p.vy;
+      p.rot += p.vr;
+      p.flip += p.flipSpeed;
+      const x = p.x + Math.sin(t * p.freq + p.phase) * p.sway;
+      if (p.y > H + 30) { p.y = -30; p.x = Math.random() * W; }
       ctx.save();
-      ctx.translate(p.x, p.y);
+      ctx.translate(x, p.y);
       ctx.rotate(p.rot);
+      // tumble: squash the strip as it "turns over" in the air
+      ctx.scale(1, 0.25 + Math.abs(Math.sin(p.flip)) * 0.75);
       ctx.fillStyle = p.color;
-      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.beginPath();
+      // slight curl: a bowed quad instead of a hard rectangle
+      ctx.moveTo(-p.w / 2, -p.h / 2);
+      ctx.quadraticCurveTo(0, -p.h / 2 - 2, p.w / 2, -p.h / 2);
+      ctx.lineTo(p.w / 2, p.h / 2);
+      ctx.quadraticCurveTo(0, p.h / 2 + 2, -p.w / 2, p.h / 2);
+      ctx.closePath();
+      ctx.fill();
       ctx.restore();
     }
     confettiRaf = requestAnimationFrame(frame);
@@ -381,6 +405,8 @@ function startConfetti() {
 function stopConfetti() {
   if (confettiRaf) cancelAnimationFrame(confettiRaf);
   confettiRaf = null;
+  const canvas = document.getElementById("confetti-canvas");
+  canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function formatDistance(miles) {

@@ -154,43 +154,42 @@ html, body {
   margin-bottom: 22px;
 }
 
-.award-hamster {
-  font-size: 54px;
-  line-height: 1;
-  margin-bottom: 8px;
-  animation: hamster-dance 0.7s ease-in-out infinite;
+.award-smiski {
+  width: 76px;
+  margin: 0 auto 10px;
 }
 
-@keyframes hamster-dance {
-  0%   { transform: translateY(0) rotate(-12deg) scale(1); }
-  25%  { transform: translateY(-14px) rotate(0deg) scale(1.06); }
-  50%  { transform: translateY(0) rotate(12deg) scale(1); }
-  75%  { transform: translateY(-14px) rotate(0deg) scale(1.06); }
-  100% { transform: translateY(0) rotate(-12deg) scale(1); }
+.award-smiski svg { display: block; width: 100%; }
+
+.smiski-happy { animation: smiski-hop 0.9s ease-in-out infinite; transform-origin: 50% 90%; }
+
+@keyframes smiski-hop {
+  0%   { transform: translateY(0) rotate(-4deg); }
+  25%  { transform: translateY(-10px) rotate(0deg); }
+  50%  { transform: translateY(0) rotate(4deg); }
+  75%  { transform: translateY(-10px) rotate(0deg); }
+  100% { transform: translateY(0) rotate(-4deg); }
+}
+
+.smiski-sad { animation: smiski-sigh 3s ease-in-out infinite; transform-origin: 50% 100%; }
+
+@keyframes smiski-sigh {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  50%      { transform: translateY(2px) scaleY(0.97); }
 }
 
 .award-badge {
   position: absolute;
-  top: calc(24px + env(safe-area-inset-top, 0px));
-  right: 20px;
+  top: calc(20px + env(safe-area-inset-top, 0px));
+  right: 14px;
+  width: 74px;
   transform: rotate(14deg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 40px;
-  line-height: 1;
 }
 
-.award-badge span {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  color: #9a7b4f;
-  margin-top: 2px;
-}
+.award-badge svg { display: block; width: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
-  .award-hamster { animation: none; }
+  .smiski-happy, .smiski-sad { animation: none; }
 }
 
 /* ---- floating cards ---- */
@@ -418,18 +417,15 @@ html, body {
 
 .memory.hidden { display: none; }
 
-.memory-name {
-  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: -0.01em;
-  margin-bottom: 6px;
-}
-
-.memory-text {
+.memory-line {
   font-size: 14px;
   line-height: 1.55;
   color: rgba(43, 33, 24, 0.75);
+}
+
+.memory-line strong {
+  font-weight: 700;
+  color: #2b2118;
 }
 
 .date-input {
