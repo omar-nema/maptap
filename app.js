@@ -1,48 +1,17 @@
 // ---------------------------------------------------------------
-// EDIT ME: the rounds, played in order.
+// The rounds live base64-encoded below so the answers and memories
+// aren't sitting in plain text on a public page. Decoded shape:
 //   type "map"  → { prompt, answer: [lat, lng], name, memory }
 //   type "date" → { prompt, answerDate: "YYYY-MM-DD", name, memory }
-// Coords: right-click a spot on Google Maps to copy them.
-// name / memory are optional — leave "" to hide them on the reveal.
+// name / memory are optional — "" hides them on the reveal.
+//
+// To edit or add rounds: decode SPOTS_ENCODED, change the array, and
+// re-encode with  btoa(JSON.stringify(spots))  — then paste back below.
 // ---------------------------------------------------------------
-const SPOTS = [
-  {
-    type: "map",
-    prompt: "Where did we have our first date?",
-    answer: [40.7170168, -73.9499813],
-    name: "Night of Joy",
-    memory:
-      "You were wearing a dress, I was wearing a short sleeve button up. We started by talking about midsommar, you were super cute and a lil shy.",
-  },
-  {
-    type: "map",
-    prompt: "Where were we on our third date?",
-    answer: [40.7049167, -73.9279056],
-    name: "Bunna Cafe",
-    memory: "",
-  },
-  {
-    type: "map",
-    prompt: "Where did we watch our first movie together?",
-    answer: [40.7159722, -73.962575],
-    name: "Nitehawk Cinema",
-    memory: "We watched Teenage Mutant Ninja Turtles.",
-  },
-  {
-    type: "date",
-    prompt: "When did we see Ramy together?",
-    answerDate: "2023-12-08",
-    name: "",
-    memory: "",
-  },
-  {
-    type: "date",
-    prompt: "When was our first szechuan food together?",
-    answerDate: "2024-02-29",
-    name: "Antidote",
-    memory: "",
-  },
-];
+const SPOTS_ENCODED =
+  "W3sidHlwZSI6Im1hcCIsInByb21wdCI6IldoZXJlIGRpZCB3ZSBoYXZlIG91ciBmaXJzdCBkYXRlPyIsImFuc3dlciI6WzQwLjcxNzAxNjgsLTczLjk0OTk4MTNdLCJuYW1lIjoiTmlnaHQgb2YgSm95IiwibWVtb3J5IjoiWW91IHdlcmUgd2VhcmluZyBhIGRyZXNzLCBJIHdhcyB3ZWFyaW5nIGEgc2hvcnQgc2xlZXZlIGJ1dHRvbiB1cC4gV2Ugc3RhcnRlZCBieSB0YWxraW5nIGFib3V0IG1pZHNvbW1hciwgeW91IHdlcmUgc3VwZXIgY3V0ZSBhbmQgYSBsaWwgc2h5LiJ9LHsidHlwZSI6Im1hcCIsInByb21wdCI6IldoZXJlIHdlcmUgd2Ugb24gb3VyIHRoaXJkIGRhdGU/IiwiYW5zd2VyIjpbNDAuNzA0OTE2NywtNzMuOTI3OTA1Nl0sIm5hbWUiOiJCdW5uYSBDYWZlIiwibWVtb3J5IjoiIn0seyJ0eXBlIjoibWFwIiwicHJvbXB0IjoiV2hlcmUgZGlkIHdlIHdhdGNoIG91ciBmaXJzdCBtb3ZpZSB0b2dldGhlcj8iLCJhbnN3ZXIiOls0MC43MTU5NzIyLC03My45NjI1NzVdLCJuYW1lIjoiTml0ZWhhd2sgQ2luZW1hIiwibWVtb3J5IjoiV2Ugd2F0Y2hlZCBUZWVuYWdlIE11dGFudCBOaW5qYSBUdXJ0bGVzLiJ9LHsidHlwZSI6ImRhdGUiLCJwcm9tcHQiOiJXaGVuIGRpZCB3ZSBzZWUgUmFteSB0b2dldGhlcj8iLCJhbnN3ZXJEYXRlIjoiMjAyMy0xMi0wOCIsIm5hbWUiOiIiLCJtZW1vcnkiOiIifSx7InR5cGUiOiJkYXRlIiwicHJvbXB0IjoiV2hlbiB3YXMgb3VyIGZpcnN0IHN6ZWNodWFuIGZvb2QgdG9nZXRoZXI/IiwiYW5zd2VyRGF0ZSI6IjIwMjQtMDItMjkiLCJuYW1lIjoiQW50aWRvdGUiLCJtZW1vcnkiOiIifV0=";
+
+const SPOTS = JSON.parse(decodeURIComponent(escape(atob(SPOTS_ENCODED))));
 
 // Verdicts by how close the guess landed.
 const MAP_VERDICTS = [
