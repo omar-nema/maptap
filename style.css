@@ -21,10 +21,6 @@ html, body {
   background: #e8e4da;
 }
 
-/* gentle warmth over the tiles — keepsake, not washed out */
-.leaflet-tile-pane {
-  filter: sepia(0.08) saturate(1.05);
-}
 
 /* ---- floating cards ---- */
 
@@ -63,10 +59,25 @@ html, body {
   position: relative;
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 12px;
   max-width: 640px;
   margin: 0 auto;
   padding: 11px 20px 13px;
+}
+
+.round-indicator {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9a7b4f;
+}
+
+.score-group {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
 }
 
 .score-label {
@@ -84,7 +95,6 @@ html, body {
   color: #2b2118;
   font-variant-numeric: tabular-nums;
   transform-origin: left center;
-  margin-left: auto;
 }
 
 .score-value.bump { animation: score-bump 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.4); }
@@ -164,11 +174,13 @@ html, body {
 .prompt, .result-headline {
   font-family: "Plus Jakarta Sans", system-ui, sans-serif;
   font-weight: 800;
-  font-size: 27px;
   line-height: 1.2;
   letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
+
+.prompt { font-size: 20px; }
+.result-headline { font-size: 26px; }
 
 .hint {
   font-size: 14px;
@@ -311,6 +323,7 @@ html, body {
 }
 
 @media (max-width: 480px) {
-  .prompt, .result-headline { font-size: 24px; }
+  .prompt { font-size: 19px; }
+  .result-headline { font-size: 23px; }
   .card { padding: 16px 18px 18px; }
 }

@@ -46,10 +46,12 @@ const map = L.map("map", {
 
 L.control.zoom({ position: "bottomright" }).addTo(map);
 
-// Label-free tiles: geography without any names to hint from.
-L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png", {
-  attribution: "&copy; OpenStreetMap &copy; CARTO",
-  subdomains: "abcd",
+// Stamen Watercolor via Stadia Maps: painterly and naturally label-free.
+// Keyless on localhost; the live domain is whitelisted in the Stadia account.
+L.tileLayer("https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg", {
+  attribution:
+    '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://stamen.com/">Stamen Design</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  maxNativeZoom: 16,
   maxZoom: 20,
 }).addTo(map);
 
@@ -143,7 +145,7 @@ function animateScore(prevTotal, newTotal, roundPoints) {
 function startRound(i) {
   const spot = SPOTS[i];
   if (i === 0) resetScore(); // fresh game (also the initial load)
-  document.getElementById("round-label").textContent = `Round ${i + 1} of ${SPOTS.length}`;
+  document.getElementById("round-label").textContent = `Round ${i + 1} / ${SPOTS.length}`;
   document.getElementById("prompt-text").textContent = spot.prompt;
   confirmBtn.disabled = true;
   locked = false;

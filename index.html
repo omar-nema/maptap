@@ -18,9 +18,12 @@
   <!-- Running score meter -->
   <div class="scorebar" id="scorebar">
     <div class="scorebar-inner">
-      <span class="score-label">Score</span>
-      <span class="score-value" id="score-value">0</span>
-      <span class="score-max" id="score-max">/ 500</span>
+      <span class="round-indicator" id="round-label">Round 1 / 5</span>
+      <span class="score-group">
+        <span class="score-label">Score</span>
+        <span class="score-value" id="score-value">0</span>
+        <span class="score-max" id="score-max">/ 500</span>
+      </span>
       <span class="score-pop" id="score-pop" aria-hidden="true"></span>
     </div>
     <div class="score-track"><div class="score-fill" id="score-fill"></div></div>
@@ -28,7 +31,6 @@
 
   <!-- Intro / prompt card -->
   <div class="card prompt-card" id="prompt-card">
-    <p class="eyebrow" id="round-label">Round 1</p>
     <h1 class="prompt" id="prompt-text">Where did we have our first date?</h1>
     <p class="hint" id="tap-hint">Tap the map to drop your guess.</p>
     <input type="date" id="date-input" class="date-input hidden" aria-label="Your date guess">
