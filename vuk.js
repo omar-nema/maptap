@@ -11,8 +11,9 @@
   const LAST_SPAWN = 41500;
   const FADE_AT = 40000;   // audio fade starts
   const END_AT = 45000;    // hard end
-  const SPAWN_EVERY = 1250;
-  const APPROACH = 1600;   // ring travel time; tap when it lands
+  const DROP_AT = 28000;   // the song picks up — so do we
+  const SPAWN_EVERY = 1250, SPAWN_FAST = 700;
+  const APPROACH = 1600, APPROACH_FAST = 1150;
 
   window.startVukVuk = function (onDone) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -89,7 +90,7 @@
 
     // ---- EBA-style circles ----
     let hits = 0, total = 0, combo = 0;
-    function spawnCircle() {
+    function spawnCircle(approach) {
       if (finished) return;
       total++;
       const W = overlay.clientWidth, H = overlay.clientHeight;
@@ -100,9 +101,10 @@
       el.style.left = `${x}px`;
       el.style.top = `${y}px`;
       el.innerHTML = `<div class="vuk-ring"></div><span>${((total - 1) % 4) + 1}</span>`;
+      el.querySelector(".vuk-ring").style.animationDuration = `${approach}ms`;
       field.appendChild(el);
 
-      const hitTime = performance.now() + APPROACH;
+      const hitTime = performance.now() + approach;
       let judged = false;
 
       function judge(label, ok) {
@@ -128,11 +130,17 @@
         else if (d <= 320) judge("GOOD", true);
         else judge("EARLY", false);
       });
-      timers.push(setTimeout(() => judge("✗", false), APPROACH + 320));
+      timers.push(setTimeout(() => judge("✗", false), approach + 320));
     }
 
-    for (let t = GAME_AT; t <= LAST_SPAWN; t += SPAWN_EVERY) {
-      timers.push(setTimeout(spawnCircle, t));
+    // cruise until the drop, then faster rings, denser spawns, doubles
+    for (let t = GAME_AT; t < DROP_AT; t += SPAWN_EVERY) {
+      timers.push(setTimeout(() => spawnCircle(APPROACH), t));
+    }
+    let n = 0;
+    for (let t = DROP_AT; t <= LAST_SPAWN; t += SPAWN_FAST) {
+      timers.push(setTimeout(() => spawnCircle(APPROACH_FAST), t));
+      if (++n % 4 === 0) timers.push(setTimeout(() => spawnCircle(APPROACH_FAST), t + 200));
     }
 
     // ---- fade out and end ----
