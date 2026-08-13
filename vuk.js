@@ -8,7 +8,7 @@
   const FACE_SRC = "assets/vuk-face.jpg";
   const TITLE_AT = 1200;   // "VUK VUK" appears
   const GAME_AT = 4000;    // first circle
-  const FADE_AT = 40000;   // audio fade starts
+  const FADE_AT = 42000;   // audio fades over the final seconds
   const END_AT = 45000;    // hard end
   const DROP_AT = 28000;   // the song picks up — so do we
   // Measured from the track itself: 150 BPM, first beat at 367ms.
@@ -52,6 +52,7 @@
     overlay.innerHTML = `
       <img class="vuk-face" src="${FACE_SRC}" alt="">
       <h1 class="vuk-title hidden">VUK&nbsp;VUK</h1>
+      <p class="vuk-audio-hint hidden">turn audio on \u{1F50A}</p>
       <p class="vuk-instruction hidden">Line up the circles</p>
       <div class="vuk-field"></div>
       <div class="vuk-combo" aria-live="polite"></div>
@@ -82,7 +83,13 @@
     else face.style.transform = "translate(30px, 90px)";
 
     // ---- timeline ----
-    timers.push(setTimeout(() => title.classList.remove("hidden"), TITLE_AT));
+    const audioHint = overlay.querySelector(".vuk-audio-hint");
+    timers.push(setTimeout(() => {
+      title.classList.remove("hidden");
+      audioHint.classList.remove("hidden");
+    }, TITLE_AT));
+    timers.push(setTimeout(() => audioHint.classList.add("vuk-fade"), TITLE_AT + 2000));
+    timers.push(setTimeout(() => audioHint.remove(), TITLE_AT + 3000));
     const instruction = overlay.querySelector(".vuk-instruction");
     timers.push(setTimeout(() => {
       title.classList.add("hidden");
@@ -177,8 +184,9 @@
         if (++n % 4 === 0 && h + BEAT <= LAST_HIT) scheduleHit(h + BEAT, APPROACH_FAST);
       }
       timers.push(setTimeout(() => {
+        // ~4s fade: silent right as the shards fly
         const fadeTick = setInterval(() => {
-          audio.volume = Math.max(0, audio.volume - 0.022);
+          audio.volume = Math.max(0, audio.volume - 0.025);
           if (audio.volume <= 0) clearInterval(fadeTick);
         }, 100);
         timers.push(fadeTick);

@@ -160,6 +160,24 @@ html, body {
   50% { transform: translate(-50%, -50%) rotate(-4deg) scale(1.12); }
 }
 
+.vuk-audio-hint {
+  position: absolute;
+  top: 66%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 1;
+  transition: opacity 0.9s ease;
+  pointer-events: none;
+}
+
+.vuk-audio-hint.hidden { display: none; }
+.vuk-audio-hint.vuk-fade { opacity: 0; }
+
 .vuk-instruction {
   position: absolute;
   top: calc(56px + env(safe-area-inset-top, 0px));
