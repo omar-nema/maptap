@@ -255,13 +255,13 @@ html, body {
 
 .btn {
   font-family: inherit;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   letter-spacing: 0.02em;
   color: #faf6ee;
   background: #2f5539;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   padding: 13px 30px;
   cursor: pointer;
   transition: background 0.15s ease, opacity 0.15s ease;
