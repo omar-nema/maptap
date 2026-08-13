@@ -46,7 +46,7 @@
   function fitDistance() {
     const tan = Math.tan((camera.fov / 2) * (Math.PI / 180));
     const limit = tan * Math.min(camera.aspect, 1);
-    return RADIUS / (0.58 * limit);
+    return RADIUS / (0.67 * limit);
   }
 
   let userZoomed = false;
